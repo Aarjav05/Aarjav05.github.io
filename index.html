@@ -817,6 +817,67 @@ footer {
 }
 .footer-link:hover .footer-link-icon { background: var(--accent-light); }
 
+/* Copy email button */
+.email-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.email-row .footer-link {
+  flex: 1;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--mute);
+  cursor: pointer;
+  font-size: .95rem;
+  flex-shrink: 0;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+.copy-btn.copied {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-light);
+  animation: pop .25s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.copy-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font: 600 .72rem 'Inter', sans-serif;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s;
+}
+
+.copy-btn.copied .copy-tooltip { opacity: 1; }
+
 .footer-copy {
   margin-top: 48px;
   padding-top: 24px;
@@ -1199,10 +1260,16 @@ footer {
         </div>
       </div>
       <div class="footer-links reveal reveal-delay-1">
-        <a class="footer-link" href="mailto:aarjav.n.jain205@gmail.com">
-          <span class="footer-link-icon">&#9993;</span>
-          aarjav.n.jain205@gmail.com
-        </a>
+        <div class="email-row">
+          <a class="footer-link" href="mailto:aarjav.n.jain205@gmail.com">
+            <span class="footer-link-icon">&#9993;</span>
+            aarjav.n.jain205@gmail.com
+          </a>
+          <button class="copy-btn" id="copyEmailBtn" title="Copy email address" aria-label="Copy email address">
+            <span class="copy-tooltip">Copied!</span>
+            <span class="copy-icon">&#128203;</span>
+          </button>
+        </div>
         <a class="footer-link" href="https://www.linkedin.com/in/aarjav-jain-b4b909264/" target="_blank" rel="noopener">
           <span class="footer-link-icon">&#128188;</span>
           linkedin.com/in/aarjav-jain-b4b909264
@@ -1351,6 +1418,21 @@ footer {
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   draw(); kick(); loop();
+})();
+/* ---------- Copy email to clipboard ---------- */
+(function () {
+  var btn = document.getElementById('copyEmailBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText('aarjav.n.jain205@gmail.com').then(function () {
+      btn.classList.add('copied');
+      btn.querySelector('.copy-icon').textContent = '\u2713';
+      setTimeout(function () {
+        btn.classList.remove('copied');
+        btn.querySelector('.copy-icon').textContent = '\uD83D\uDCCB';
+      }, 2000);
+    });
+  });
 })();
 </script>
 </body>
