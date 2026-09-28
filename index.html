@@ -641,10 +641,38 @@ h2 {
    ============================================================ */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 48px;
+  grid-template-columns: 1fr auto;
+  gap: 56px;
   align-items: start;
-  max-width: 720px;
+}
+
+.about-photo-wrap {
+  flex-shrink: 0;
+  position: sticky;
+  top: 96px;
+}
+
+.about-photo {
+  width: 260px;
+  height: 320px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  display: block;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.about-photo-wrap:hover .about-photo {
+  transform: scale(1.015);
+  box-shadow: 0 20px 60px rgba(14,21,37,.16);
+}
+
+@media (max-width: 800px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-photo-wrap { display: flex; justify-content: center; order: -1; }
+  .about-photo { width: 180px; height: 220px; }
 }
 
 .about-text p {
@@ -1148,6 +1176,10 @@ footer {
         </div>
       </div>
 
+      <!-- Photo -->
+      <div class="about-photo-wrap reveal reveal-delay-1">
+        <img class="about-photo" src="aarjav_photo_2.jpeg" alt="Photo of Aarjav Jain" loading="lazy">
+      </div>
 
     </div>
   </div>
